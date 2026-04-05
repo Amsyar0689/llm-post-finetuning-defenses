@@ -49,11 +49,38 @@ python -m pip install \
 
 python -m pip install -e .
 
-# Trigger the Hugging Face login interactively 
-echo "=========================================================="
-echo "Setup complete! Please authenticate with Hugging Face below."
-echo "Paste your Access Token and hit Enter."
-echo "=========================================================="
-python -c "from huggingface_hub import login; login()"
+# Authenticate with Hugging Face only when needed.
+# Priority:
+# 1) HF_TOKEN / HUGGINGFACE_HUB_TOKEN from environment
+# 2) Existing cached token from a prior login
+# 3) Interactive prompt as a last resort
+HF_AUTH_TOKEN="${HF_TOKEN:-${HUGGINGFACE_HUB_TOKEN:-}}"
+
+if [[ -n "${HF_AUTH_TOKEN}" ]]; then
+        echo "Using Hugging Face token from environment variable."
+        python - <<'PY'
+import os
+from huggingface_hub import login
+
+token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGINGFACE_HUB_TOKEN")
+if not token:
+    raise SystemExit("HF token environment variable was not found.")
+
+login(token=token, add_to_git_credential=False)
+print("Hugging Face authentication complete (from environment variable).")
+PY
+elif python - <<'PY'
+from huggingface_hub import HfFolder
+raise SystemExit(0 if HfFolder.get_token() else 1)
+PY
+then
+        echo "Found existing Hugging Face login; skipping interactive authentication."
+else
+        echo "=========================================================="
+        echo "Setup complete! Please authenticate with Hugging Face below."
+        echo "Paste your Access Token and hit Enter."
+        echo "=========================================================="
+        python -c "from huggingface_hub import login; login(add_to_git_credential=False)"
+fi
 
 echo "Environment ready. Activate later with: conda activate ${ENV_NAME}"
