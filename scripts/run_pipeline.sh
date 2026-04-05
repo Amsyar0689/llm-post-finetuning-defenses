@@ -27,6 +27,22 @@ LEARNING_RATES="${LEARNING_RATES:-2e-5 5e-5 1e-4}"
 EPOCHS_LIST="${EPOCHS_LIST:-1 2 3}"
 RATIOS="${RATIOS:-1 5 10}"
 
+# Logging setup
+LOG_DIR="${ROOT_DIR}/results/logs"
+mkdir -p "${LOG_DIR}"
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+LOG_FILE="${LOG_DIR}/training_${TIMESTAMP}.log"
+
+echo "====================================="
+echo "Pipeline Log: ${LOG_FILE}"
+echo "Start Time: $(date '+%Y-%m-%d %H:%M:%S')"
+echo "====================================="
+echo ""
+
+# Redirect stdout and stderr to both console and log file
+exec > >(tee -a "${LOG_FILE}")
+exec 2>&1
+
 if [[ "${SKIP_SETUP:-0}" != "1" ]]; then
   bash "${SETUP_SCRIPT}"
 fi
@@ -88,4 +104,8 @@ if [[ "${RUN_ANTIDOTE:-0}" == "1" ]]; then
     --output_dir "${CHECKPOINT_ROOT}/antidote_pruned"
 fi
 
-echo "Pipeline complete."
+echo ""
+echo "====================================="
+echo "Pipeline complete at $(date '+%Y-%m-%d %H:%M:%S')"
+echo "Log saved to: ${LOG_FILE}"
+echo "====================================="
