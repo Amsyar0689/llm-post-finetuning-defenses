@@ -115,11 +115,19 @@ def main() -> None:
     train_dataset = train_dataset.remove_columns([col for col in train_dataset.column_names if col != "text"])
 
     tokenizer = load_tokenizer(args.base_model, hf_token=hf_token)
+    local_rank = int(os.environ.get("LOCAL_RANK", "-1"))
+    if local_rank >= 0:
+        # In distributed mode, each process must own a single explicit device.
+        model_device_map: str | dict[str, int] = {"": local_rank}
+    else:
+        model_device_map = "auto"
+
     model = load_causal_lm(
         args.base_model,
         hf_token=hf_token,
         load_in_4bit=True,
         torch_dtype=torch.float16,
+        device_map=model_device_map,
     )
     model = prepare_model_for_kbit_training(model)
 
