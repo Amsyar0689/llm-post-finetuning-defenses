@@ -11,7 +11,7 @@ import os
 from pathlib import Path
 
 import torch
-from datasets import load_from_disk
+from datasets import Dataset, DatasetDict, load_from_disk
 from peft import LoraConfig, TaskType, prepare_model_for_kbit_training
 from trl import SFTConfig, SFTTrainer
 
@@ -95,8 +95,15 @@ def main() -> None:
         raise FileNotFoundError(f"Processed dataset not found at {dataset_path}. Run prepare_data.py first.")
 
     LOGGER.info("Loading training data from %s", dataset_path)
-    dataset_dict = load_from_disk(str(dataset_path))
-    train_dataset = dataset_dict["train"]
+    dataset_obj = load_from_disk(str(dataset_path))
+    if isinstance(dataset_obj, DatasetDict):
+        if "train" not in dataset_obj:
+            raise KeyError(f"Expected a 'train' split in {dataset_path}, found {list(dataset_obj.keys())}")
+        train_dataset = dataset_obj["train"]
+    elif isinstance(dataset_obj, Dataset):
+        train_dataset = dataset_obj
+    else:
+        raise TypeError(f"Unsupported dataset type loaded from {dataset_path}: {type(dataset_obj)!r}")
     if "text" not in train_dataset.column_names:
         raise ValueError(
             "Expected a 'text' column in the processed dataset. Re-run scripts/prepare_data.py and try again."
