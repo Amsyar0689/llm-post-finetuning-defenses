@@ -121,7 +121,7 @@ fi
 
 if [[ "${RUN_EVAL:-0}" == "1" ]]; then
   echo "Running safety evaluation..."
-  python scripts/evaluate_safety.py \
+  python scripts/evaluate_attack_success.py \
     --base_model "${BASE_MODEL}" \
     --adapter_path "${EVAL_ADAPTER_PATH}" \
     --judge_model "${JUDGE_MODEL}" \

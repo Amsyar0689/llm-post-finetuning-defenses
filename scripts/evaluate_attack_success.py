@@ -19,7 +19,7 @@ from peft import PeftModel
 from src.utils.llm import generate_texts, load_causal_lm, load_tokenizer
 
 
-LOGGER = logging.getLogger("evaluate_safety")
+LOGGER = logging.getLogger("evaluate_attack_success")
 DEFAULT_ADVBENCH_URL = (
     "https://raw.githubusercontent.com/llm-attacks/llm-attacks/main/data/advbench/harmful_behaviors.csv"
 )
