@@ -1,0 +1,28 @@
+{
+  "defense": "vaccine",
+  "base_model": "meta-llama/Llama-2-7b-chat-hf",
+  "dataset_path": "data/processed/ratio_5",
+  "learning_rate": 5e-05,
+  "epochs": 3.0,
+  "ratio": 5,
+  "vaccine_rho": 2.0,
+  "max_seq_length": 512,
+  "per_device_batch_size": 2,
+  "gradient_accumulation_steps": 8,
+  "gradient_checkpointing": true,
+  "packing": true,
+  "dataloader_num_workers": 4,
+  "safety_anchor_dataset": "PKU-Alignment/BeaverTails",
+  "safety_anchor_samples": 1000,
+  "train_samples_user": 10400,
+  "train_samples_anchor": 1000,
+  "train_samples_total": 11400,
+  "output_dir": "vaccine_checkpoints/vaccine_lr_5e-05_ep_3_ratio_5",
+  "metrics": {
+    "train_runtime": 11795.372,
+    "train_samples_per_second": 0.984,
+    "train_steps_per_second": 0.008,
+    "total_flos": 2.2424036922569523e+17,
+    "train_loss": 0.3151146340113814
+  }
+}
