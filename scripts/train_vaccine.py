@@ -271,7 +271,7 @@ def _extract_anchor_prompt(example: dict) -> str | None:
 
 
 def _build_safety_anchor_dataset(tokenizer, sample_count: int, seed: int) -> Dataset:
-    anchor_ds = load_dataset("PKU-Alignment/BeaverTails", split="train")
+    anchor_ds = load_dataset("PKU-Alignment/BeaverTails", split="30k_train")
     if "is_safe" not in anchor_ds.column_names:
         raise KeyError("BeaverTails dataset must include an 'is_safe' column.")
     safe_ds = anchor_ds.filter(lambda row: bool(row["is_safe"]))
