@@ -1,0 +1,27 @@
+{
+  "base_model": "meta-llama/Llama-2-7b-chat-hf",
+  "dataset_path": "data/processed/ratio_10",
+  "learning_rate": 5e-05,
+  "epochs": 5.0,
+  "ratio": 10,
+  "lisa_lambda": 0.1,
+  "max_seq_length": 512,
+  "per_device_batch_size": 2,
+  "gradient_accumulation_steps": 8,
+  "gradient_checkpointing": true,
+  "packing": true,
+  "dataloader_num_workers": 4,
+  "safety_anchor_dataset": "PKU-Alignment/BeaverTails",
+  "safety_anchor_samples": 1000,
+  "train_samples_user": 57749,
+  "train_samples_anchor": 1000,
+  "train_samples_total": 58749,
+  "output_dir": "lisa_checkpoints/lisa_lr_5e-05_ep_5_ratio_10",
+  "metrics": {
+    "train_runtime": 91861.5543,
+    "train_samples_per_second": 1.091,
+    "train_steps_per_second": 0.017,
+    "total_flos": 1.9375879466306765e+18,
+    "train_loss": 123.0265936808981
+  }
+}
