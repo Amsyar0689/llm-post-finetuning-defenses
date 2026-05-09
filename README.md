@@ -3,6 +3,8 @@
 
 **UW‑Madison CS639: Deep Learning for NLP – Project Proposal (Idea 7)**
 
+Repository: [Amsyar0689/llm-post-finetuning-defenses](https://github.com/Amsyar0689/llm-post-finetuning-defenses/tree/main)
+
 ## Overview
 
 This repository contains the codebase for evaluating post‑fine‑tuning safety defenses in large language models (LLMs). We stress‑test the **Antidote** defense mechanism against catastrophic forgetting and explicit harmful fine‑tuning attacks using **Llama‑2‑7B**.
@@ -55,7 +57,7 @@ We utilize the Hugging Face **`datasets`** library for our data pipelines:
 2. **Create the environment:**
    1. Clone this repository:
       ```bash
-      git clone https://github.com/MalreddyNitin/llm-post-finetuning-defenses.git
+      git clone https://github.com/Amsyar0689/llm-post-finetuning-defenses.git
       cd llm-post-finetuning-defenses
       ```
    2. Create a conda environment (named `llm-antidote`) and install dependencies:
